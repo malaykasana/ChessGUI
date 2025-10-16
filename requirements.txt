@@ -1,0 +1,4 @@
+python-chess==1.999
+stockfish==3.28.0
+requests==2.31.0
+chess-com-api==1.0.0

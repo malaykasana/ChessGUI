@@ -1,0 +1,39 @@
+name: build-windows
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build Windows EXE
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (!(Test-Path 'stockfish/stockfish-windows-x86-64-avx2.exe')) {
+            Write-Host 'Stockfish binary not found; building without engine. Place an exe under stockfish/ to bundle.'
+          }
+          pyinstaller --noconfirm --windowed --clean --add-data "stockfish;stockfish" chess_gui.py --name ChessGUI
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChessGUI-windows
+          path: dist/ChessGUI/
