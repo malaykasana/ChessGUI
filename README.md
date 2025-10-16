@@ -46,7 +46,7 @@ This project includes both a full GUI app (`chess_gui.py`) and a simple command-
 - Python 3.7+
 - Stockfish chess engine installed on your system
 
-## Installation
+## Installation (Sample can be downloaded from releases section.)
 
 ### 1. Install Python Dependencies
 
